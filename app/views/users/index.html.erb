@@ -1,0 +1,6 @@
+Hello and welcome to Daigakuin no Ahou Jr.
+<ul>
+<% @users.each do |user| %>
+<li id="<%= dom_id user %>"><%= user.name %> | <%= link_to "show", user_path(user) %> | | <%= link_to "delete", user_path(user), method: :delete, remote: true %> | </li>
+	<% end -%>
+	</ul>
