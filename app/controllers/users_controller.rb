@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	before_action :load_user, only: [:show, :destroy]
-  	before_action :logged_in_user, only: [:index, :edit, :update]
-  	before_action :correct_user,   only: [:edit, :update]
+  	before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :following, :followers]
+  	before_action :correct_user,   only: [:edit, :show, :update]
 
   def new
   	@user = User.new
@@ -34,6 +34,9 @@ class UsersController < ApplicationController
   end
 
   def show
+  	@user = User.find(params[:id])
+  	@microposts = @user.microposts.paginate(page: params[:page])
+  	# render 'show'
   end
 
   def destroy
@@ -43,6 +46,20 @@ class UsersController < ApplicationController
 
   def index
   	@users = User.all
+  end
+
+  def following
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
   end
 
   private
